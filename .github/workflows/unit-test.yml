@@ -1,27 +1,14 @@
-name: Unit Testing
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+name: Unit-Test
+on: [push]
 
 jobs:
   build:
-
+    name: cppcheck
     runs-on: ubuntu-latest
-
     steps:
-    - name: Install cmake
-      run: sudo apt-get install cmake
-    - name: Install C Unit
-      run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
-    - uses: actions/checkout@v2
-    
-      
-    - name: make all
-      run:  make -C Simple_Calculator-main/
-    - name: Change mode
-      run: cd Simple_Calculator-main && chmod a+x a.out
-    - name: unit test
-      run: cd Simple_Calculator-main && ./a.out
+      - uses: actions/checkout@v2
+        
+      - name: Install cppcheck
+        run: sudo apt-get -y install cppcheck
+      - name: Cppcheck code
+        run: cppcheck 
